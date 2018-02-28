@@ -78,7 +78,7 @@ namespace ReportingCommentary.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(customer);
         }
 
         // POST: api/Customers

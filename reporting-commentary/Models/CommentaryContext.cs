@@ -17,7 +17,7 @@ namespace ReportingCommentary.Models
         public DbSet<Project> Projects { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Package> Packages { get; set; }
+        public DbSet<Contract> Contracts { get; set; }
         public DbSet<CBS> CBSs { get; set; }
         public DbSet<ReportingPeriod> ReportingPeriods { get; set; }
         public DbSet<ReportingItem> ReportingItems { get; set; }

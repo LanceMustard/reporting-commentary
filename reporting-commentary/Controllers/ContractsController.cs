@@ -10,57 +10,60 @@ using ReportingCommentary.Models;
 namespace ReportingCommentary.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Packages")]
-    public class PackagesController : Controller
+    [Route("api/Contracts")]
+    public class ContractsController : Controller
     {
         private readonly CommentaryContext _context;
 
-        public PackagesController(CommentaryContext context)
+        public ContractsController(CommentaryContext context)
         {
             _context = context;
         }
 
-        // GET: api/Packages
+        // GET: api/Contracts
         [HttpGet]
-        public IEnumerable<Package> GetPackages()
+        public IEnumerable<Contract> GetContracts()
         {
-            return _context.Packages;
+            //return _context.Contracts;
+            return _context.Contracts
+                .Include(cm => cm.ContractManager)
+                .Include(c => c.Customer);
         }
 
-        // GET: api/Packages/5
+        // GET: api/Contracts/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPackage([FromRoute] int id)
+        public async Task<IActionResult> GetContract([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var package = await _context.Packages.SingleOrDefaultAsync(m => m.Id == id);
+            var Contract = await _context.Contracts.SingleOrDefaultAsync(m => m.Id == id);
 
-            if (package == null)
+            if (Contract == null)
             {
                 return NotFound();
             }
 
-            return Ok(package);
+            return Ok(Contract);
         }
 
-        // PUT: api/Packages/5
+        // PUT: api/Contracts/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPackage([FromRoute] int id, [FromBody] Package package)
+        public async Task<IActionResult> PutContract([FromRoute] int id, [FromBody] Contract Contract)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != package.Id)
+            if (id != Contract.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(package).State = EntityState.Modified;
+            _context.Entry(Contract).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +71,7 @@ namespace ReportingCommentary.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PackageExists(id))
+                if (!ContractExists(id))
                 {
                     return NotFound();
                 }
@@ -78,48 +81,48 @@ namespace ReportingCommentary.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(Contract);
         }
 
-        // POST: api/Packages
+        // POST: api/Contracts
         [HttpPost]
-        public async Task<IActionResult> PostPackage([FromBody] Package package)
+        public async Task<IActionResult> PostContract([FromBody] Contract Contract)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Packages.Add(package);
+            _context.Contracts.Add(Contract);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPackage", new { id = package.Id }, package);
+            return CreatedAtAction("GetContract", new { id = Contract.Id }, Contract);
         }
 
-        // DELETE: api/Packages/5
+        // DELETE: api/Contracts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePackage([FromRoute] int id)
+        public async Task<IActionResult> DeleteContract([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var package = await _context.Packages.SingleOrDefaultAsync(m => m.Id == id);
-            if (package == null)
+            var Contract = await _context.Contracts.SingleOrDefaultAsync(m => m.Id == id);
+            if (Contract == null)
             {
                 return NotFound();
             }
 
-            _context.Packages.Remove(package);
+            _context.Contracts.Remove(Contract);
             await _context.SaveChangesAsync();
 
-            return Ok(package);
+            return Ok(Contract);
         }
 
-        private bool PackageExists(int id)
+        private bool ContractExists(int id)
         {
-            return _context.Packages.Any(e => e.Id == id);
+            return _context.Contracts.Any(e => e.Id == id);
         }
     }
 }

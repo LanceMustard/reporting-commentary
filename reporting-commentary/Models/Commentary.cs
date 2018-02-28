@@ -28,7 +28,7 @@ namespace ReportingCommentary.Models
         public string Name { get; set; }
     }
 
-    public class Package
+    public class Contract
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -37,9 +37,9 @@ namespace ReportingCommentary.Models
         public string Name { get; set; }
         public string Number { get; set; }
         public string ReportingCycle { get; set; }
-        public int PackageManagerId { get; set; }
-        [ForeignKey("PackageManagerId")]
-        public User PackageManager { get; set; }
+        public int ContractManagerId { get; set; }
+        [ForeignKey("ContractManagerId")]
+        public User ContractManager { get; set; }
         public int CustomerId { get; set; }
         [ForeignKey("CustomerId")]
         public Customer Customer { get; set; }
@@ -50,9 +50,9 @@ namespace ReportingCommentary.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int PackageId { get; set; }
-        [ForeignKey("PackageId")]
-        public Package Package { get; set; }
+        public int ContractId { get; set; }
+        [ForeignKey("ContractId")]
+        public Contract Contract { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
     }
@@ -61,9 +61,9 @@ namespace ReportingCommentary.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int PackageId { get; set; }
-        [ForeignKey("PackageId")]
-        public Package Package { get; set; }
+        public int ContractId { get; set; }
+        [ForeignKey("ContractId")]
+        public Contract Contract { get; set; }
         public string Number { get; set; }
         public string Description { get; set; }
     }
@@ -73,10 +73,11 @@ namespace ReportingCommentary.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int PackageId { get; set; }
-        [ForeignKey("PackageId")]
-        public Package Package { get; set; }
+        public int ContractId { get; set; }
+        [ForeignKey("ContractId")]
+        public Contract Contract { get; set; }
         public string Number { get; set; }
+        public string Value { get; set; }
         public string Description { get; set; }
     }
 
@@ -94,9 +95,9 @@ namespace ReportingCommentary.Models
         public int PortfolioManagerId { get; set; }
         [ForeignKey("PortfolioManagerId")]
         public User PortfolioManager { get; set; }
-        public int PackageId { get; set; }
-        [ForeignKey("PackageId")]
-        public Package Package { get; set; }
+        public int ContractId { get; set; }
+        [ForeignKey("ContractId")]
+        public Contract Contract { get; set; }
     }
 
     public class Comment
@@ -118,10 +119,10 @@ namespace ReportingCommentary.Models
         public User PortfolioManager { get; set; }
         public DateTime PortfolioManagerApprovalDate { get; set; }
 
-        public int PackageManagerId { get; set; }
-        [ForeignKey("PackageManagerId")]
-        public User PackageManager { get; set; }
-        public DateTime PackageManagerApprovalDate { get; set; }
+        public int ContractManagerId { get; set; }
+        [ForeignKey("ContractManagerId")]
+        public User ContractManager { get; set; }
+        public DateTime ContractManagerApprovalDate { get; set; }
 
         public int CBSId { get; set; }
         [ForeignKey("CBSId")]
@@ -135,8 +136,8 @@ namespace ReportingCommentary.Models
         [ForeignKey("ReportingItemId")]
         public ReportingPeriod ReportingItem { get; set; }
 
-        public int PackageId { get; set; }
-        [ForeignKey("PackageId")]
-        public Package Package { get; set; }
+        public int ContractId { get; set; }
+        [ForeignKey("ContractId")]
+        public Contract Contract { get; set; }
     }
 }

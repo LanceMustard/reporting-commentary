@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Cors;
 using ReportingCommentary.Data;
 using ReportingCommentary.Models;
 
@@ -28,6 +29,12 @@ namespace ReportingCommentary
         {
             services.AddDbContext<CommentaryContext>(opt => opt.UseInMemoryDatabase("CommentaryContext"));
             services.AddMvc();
+            services.AddCors(o => o.AddPolicy("CustomCORS", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +43,7 @@ namespace ReportingCommentary
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors("CustomCORS");
             }
 
             app.UseMvc();
